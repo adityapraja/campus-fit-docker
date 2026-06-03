@@ -8,15 +8,13 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=campusfit_user
+      - MONGO_INITDB_ROOT_PASSWORD=campusfit_password
+      - MONGO_INITDB_DATABASE=campusfit_db
     networks:
       - campusfit_network
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    
+
     restart:  unless-stopped
 
   app:
