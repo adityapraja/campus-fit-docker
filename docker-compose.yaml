@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo
+    container_name: campusfit_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - campusfit_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    
+    restart:  unless-stopped
+
+  app:
+    build: .
+    container_name: campusfit_main
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - APP_ENV=development
+      - MONGO_URI=mongodb://campusfit_user:campusfit_password@mongodb:27017/campusfit_db?authSource=admin
+    depends_on:
+      - mongodb
+    networks:
+      - campusfit_network
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+
+networks:
+  campusfit_network:
+    driver: bridge
+  
