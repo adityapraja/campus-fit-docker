@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json .
 RUN npm install 
+RUN apk update && apk add curl
 
 COPY .env.example ./.env
 COPY . .
