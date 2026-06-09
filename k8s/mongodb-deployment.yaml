@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campusfitdb-deploy
+  labels:
+    app: campusfitdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: campusfitdb
+  template:
+    metadata:
+      labels:
+        app: campusfitdb
+    spec:
+      containers:
+      - name: campusfitdb
+        image: mongo
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: campusfit-secret
+              key: campusfit-user
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: campusfit-secret
+              key: campusfit-pswd
+

@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: campusfitdb-config
+data:
+  mongodburl: "mongodb://campusfitdb-service:27017"

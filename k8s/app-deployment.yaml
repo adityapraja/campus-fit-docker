@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campusfit-deployment
+  labels:
+    app: campusfit
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: campusfit
+  template:
+    metadata:
+      labels:
+        app: campusfit
+    spec:
+      containers:
+      - name: campusfit
+        image: adityapraja/campus-fit-docker
+        ports:
+        - containerPort: 3000
+        env: 
+        - name: USER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: campusfit-secret
+              key: campusfit-user
+        - name: USER_PWD
+          valueFrom:
+            secretKeyRef:
+              name: campusfit-secret
+              key: campusfit-pswd              
+        - name: MONGO_URI
+          valueFrom:
+            configMapKeyRef:
+              name: campusfitdb-config
+              key: mongodburl
+
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: campusfit-config
+              key: PORT
