@@ -15,19 +15,27 @@ spec:
         app: campusfitdb
     spec:
       containers:
-      - name: campusfitdb
-        image: mongo
-        ports:
-        - containerPort: 27017
-        env:
-        - name: MONGO_INITDB_ROOT_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: campusfit-secret
-              key: campusfit-user
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: campusfit-secret
-              key: campusfit-pswd
+        - name: campusfitdb
+          image: mongo
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: campusfit-secret
+                  key: campusfit-user
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: campusfit-secret
+                  key: campusfit-pswd
 
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
+
+      volumes:
+        - name: mongodb-storage
+          persistentVolumeClaim:
+            claimName: campusfit-pvc

@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: campusfitdb-config
 data:
-  mongodburl: "mongodb://campusfitdb-service:27017"
+  mongodburl: "mongodb://campusfit_user:campusfit_password@campusfitdb-service:27017/campusfit?authSource=admin"

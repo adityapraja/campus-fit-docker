@@ -5,7 +5,7 @@ metadata:
   labels:
     app: campusfit
 spec:
-  replicas: 5
+  replicas: 2
   selector:
     matchLabels:
       app: campusfit
@@ -15,29 +15,28 @@ spec:
         app: campusfit
     spec:
       containers:
-      - name: campusfit
-        image: adityapraja/campus-fit-docker
-        ports:
-        - containerPort: 3000
-        env: 
-        - name: USER_NAME
-          valueFrom:
-            secretKeyRef:
-              name: campusfit-secret
-              key: campusfit-user
-        - name: USER_PWD
-          valueFrom:
-            secretKeyRef:
-              name: campusfit-secret
-              key: campusfit-pswd              
-        - name: MONGO_URI
-          valueFrom:
-            configMapKeyRef:
-              name: campusfitdb-config
-              key: mongodburl
-
-        - name: PORT
-          valueFrom:
-            configMapKeyRef:
-              name: campusfit-config
-              key: PORT
+        - name: campusfit
+          image: adityapraja/campus-fit-docker
+          ports:
+            - containerPort: 3000
+          env:
+            - name: USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: campusfit-secret
+                  key: campusfit-user
+            - name: USER_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: campusfit-secret
+                  key: campusfit-pswd
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: campusfitdb-config
+                  key: mongodburl
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: campusfit-config
+                  key: PORT
