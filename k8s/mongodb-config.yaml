@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: campusfitdb-config
-data:
-  mongodburl: "mongodb://campusfit_user:campusfit_password@campusfitdb-service:27017/campusfit?authSource=admin"

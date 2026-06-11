@@ -30,11 +30,13 @@ spec:
                 secretKeyRef:
                   name: campusfit-secret
                   key: campusfit-pswd
+            # - name: MONGO_URI
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: campusfitdb-config
+            #       key: mongodburl
             - name: MONGO_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: campusfitdb-config
-                  key: mongodburl
+              value: "mongodb://$(USER_NAME):$(USER_PWD)@campusfitdb-service:27017/campusfit?authSource=admin"
             - name: PORT
               valueFrom:
                 configMapKeyRef:
